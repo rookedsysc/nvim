@@ -4,3 +4,6 @@
 
 -- Clipboard 안씀 -> XClip 사용
 vim.opt.clipboard = "unnamedplus"
+-- 절대 라인 번호 표시
+vim.opt.number = true
+vim.opt.relativenumber = false -- 상대 라인 번호 비활성화
