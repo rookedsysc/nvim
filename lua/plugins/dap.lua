@@ -16,6 +16,8 @@ return {
       require("nvim-dap-virtual-text").setup({
         commented = true, -- Show virtual text alongside comment
       })
+      require("dap-python").setup("uv")
+      require("dap-python").test_runner = "pytest"
 
       dap_python.setup("python3")
 
