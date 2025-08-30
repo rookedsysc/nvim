@@ -39,3 +39,20 @@
 
 - pylsp 사용
 - 기본 설정 **uv add pylsp, pylsp-mypy, mypy, ruff**
+
+### Java (jdtls 문제 해결)
+
+**문제**: `Error opening zip file or JAR manifest missing : lombok.jar`
+
+**원인**: Mason으로 설치된 jdtls에 lombok.jar 파일이 누락됨
+
+**해결방법**:
+```bash
+# lombok.jar 다운로드 및 설치
+curl -L https://projectlombok.org/downloads/lombok.jar -o /tmp/lombok.jar
+cp /tmp/lombok.jar ~/.local/share/nvim/mason/packages/jdtls/lombok.jar
+```
+
+**대안**:
+- `:MasonUninstall jdtls` → `:MasonInstall jdtls` (재설치)
+- `:Mason` → jdtls 업데이트
