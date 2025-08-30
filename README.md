@@ -32,3 +32,10 @@
 |                   | n    | `<leader>dO`   | 스텝 아웃                                      |
 |                   | n    | `<leader>dq`   | 디버깅 종료                                    |
 |                   | n    | `<leader>du`   | 디버그 UI 토글                                 |
+
+## 🧭 Config
+
+### Python
+
+- pylsp 사용
+- 기본 설정 **uv add pylsp, pylsp-mypy, mypy, ruff**
