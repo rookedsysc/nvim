@@ -26,8 +26,8 @@ return {
               -- Mypy for type checking
               pylsp_mypy = {
                 enabled = true,
-                live_mode = false, -- true로 하면 실시간, false면 저장시에만
-                strict = false, -- 엄격한 타입체킹 원하면 true
+                live_mode = true, -- true로 하면 실시간, false면 저장시에만
+                strict = true, -- 엄격한 타입체킹 원하면 true
               },
               -- 기본 pylsp 기능들 (필요에 따라 조정)
               pycodestyle = { enabled = false }, -- ruff 사용하므로 비활성화
