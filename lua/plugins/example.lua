@@ -63,7 +63,7 @@ return {
     },
   },
 
-  -- add pyright to lspconfig
+  -- add pyright to lspconfig with uv support
   {
     "neovim/nvim-lspconfig",
     ---@class PluginLspOpts
@@ -71,7 +71,18 @@ return {
       ---@type lspconfig.options
       servers = {
         -- pyright will be automatically installed with mason and loaded with lspconfig
-        pyright = {},
+        pyright = {
+          settings = {
+            python = {
+              analysis = {
+                autoImportCompletions = true,
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true,
+                typeCheckingMode = "basic",
+              },
+            },
+          },
+        },
       },
     },
   },
