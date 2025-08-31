@@ -21,6 +21,15 @@ return {
 
       dap_python.setup("python3")
 
+      -- Java DAP configuration (integrated with nvim-java)
+      dap.adapters.java = function(callback)
+        callback({
+          type = "server",
+          host = "127.0.0.1",
+          port = "${port}",
+        })
+      end
+
       vim.fn.sign_define("DapBreakpoint", {
         text = "",
         texthl = "DiagnosticSignError",
