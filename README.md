@@ -32,6 +32,11 @@
 |                   | n    | `<leader>dO`   | 스텝 아웃                                      |
 |                   | n    | `<leader>dq`   | 디버깅 종료                                    |
 |                   | n    | `<leader>du`   | 디버그 UI 토글                                 |
+| **AI Copilot**    | n,v  | `<leader>aa`   | CopilotChat 토글                               |
+|                   | n,v  | `<leader>ax`   | CopilotChat 대화 초기화                        |
+|                   | n,v  | `<leader>aq`   | 빠른 질문 (Quick Chat)                         |
+|                   | n,v  | `<leader>ap`   | 프롬프트 액션 선택                             |
+|                   | chat | `<C-s>`        | 프롬프트 전송                                  |
 
 ## 🧭 Config
 
