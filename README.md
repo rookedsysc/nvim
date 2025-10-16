@@ -32,6 +32,15 @@
 |                   | n    | `<leader>dO`   | 스텝 아웃                                      |
 |                   | n    | `<leader>dq`   | 디버깅 종료                                    |
 |                   | n    | `<leader>du`   | 디버그 UI 토글                                 |
+| **Claude Code**   | n    | `<leader>ac`   | Claude Code 토글                               |
+|                   | n    | `<leader>af`   | Claude Code 포커스                             |
+|                   | n    | `<leader>ar`   | Claude Code 재개 (Resume)                      |
+|                   | n    | `<leader>aC`   | Claude Code 계속 (Continue)                    |
+|                   | n    | `<leader>am`   | Claude 모델 선택                               |
+|                   | n    | `<leader>ab`   | 현재 버퍼 추가                                 |
+|                   | v    | `<leader>as`   | 선택 영역 Claude에 전송                        |
+|                   | n    | `<leader>aa`   | Diff 승인                                      |
+|                   | n    | `<leader>ad`   | Diff 거부                                      |
 | **AI Copilot**    | n,v  | `<leader>aa`   | CopilotChat 토글                               |
 |                   | n,v  | `<leader>ax`   | CopilotChat 대화 초기화                        |
 |                   | n,v  | `<leader>aq`   | 빠른 질문 (Quick Chat)                         |
@@ -39,6 +48,33 @@
 |                   | chat | `<C-s>`        | 프롬프트 전송                                  |
 
 ## 🧭 Config
+
+### Claude Code
+
+**사용 플러그인**: [coder/claudecode.nvim](https://github.com/coder/claudecode.nvim)
+
+- **의존성**: folke/snacks.nvim
+- **요구사항**: Claude Code CLI 설치 필요
+
+**설정 확인**:
+
+```vim
+# Claude Code 연결 상태 확인
+:ClaudeCodeStatus
+
+# 디버그 로깅 활성화 (필요시)
+# lua/plugins/claude-code.lua 파일에 추가:
+opts = {
+  log_level = "debug",
+}
+```
+
+**사용 팁**:
+
+1. `<leader>ab`로 현재 버퍼를 Claude에 추가
+2. Visual 모드에서 코드 선택 후 `<leader>as`로 전송
+3. Oil이나 NvimTree에서 `<leader>as`로 파일 추가
+4. Diff 제안이 나타나면 `<leader>aa`로 승인 또는 `<leader>ad`로 거부
 
 ### Python
 
