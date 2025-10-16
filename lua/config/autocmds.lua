@@ -14,3 +14,11 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.b.autoformat = true
   end,
 })
+
+-- Markdown 파일에서 spell check 비활성화
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function()
+    vim.opt_local.spell = false
+  end,
+})
