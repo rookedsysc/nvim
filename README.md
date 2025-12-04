@@ -247,3 +247,222 @@ nvim --version
 :messages
 :LspLog
 ```
+
+## 📚 핵심 개념
+
+### CMP (Completion Engine)
+
+**자동완성 엔진**으로, 사용자가 코드를 작성할 때 실시간으로 완성 제안을 제공합니다.
+
+- **역할**: LSP, Copilot, 버퍼, 경로 등 다양한 소스의 완성 제안을 통합하여 UI로 표시
+- **현재 사용**: **blink.cmp** (LazyVim 2025년 기본값)
+- **주요 소스**:
+  - `lsp`: LSP 서버의 자동완성
+  - `copilot`: GitHub Copilot AI 제안
+  - `buffer`: 현재 버퍼의 텍스트
+  - `path`: 파일 경로
+  - `snippets`: 코드 스니펫
+
+### LSP (Language Server Protocol)
+
+**언어 서버 프로토콜**은 에디터와 언어 서버 간의 표준 프로토콜입니다.
+
+- **주요 기능**:
+  - 자동완성 (Autocompletion)
+  - 정의로 이동 (Go to Definition)
+  - 참조 찾기 (Find References)
+  - 진단 (Diagnostics - 오류/경고)
+  - 코드 액션 (Code Actions)
+  - 리팩토링 (Refactoring)
+
+## 🔍 현재 설정 분석
+
+### Completion Engine
+
+**blink.cmp**를 사용 중이며, 다음과 같이 통합되어 있습니다:
+
+```lua
+sources = { "lsp", "path", "snippets", "buffer", "copilot" }
+```
+
+- ✅ **중복 없음**: nvim-cmp는 사용하지 않음 (example.lua는 비활성화됨)
+- ✅ **Copilot 통합**: blink.cmp의 source로 완벽하게 통합
+  - suggestion/panel 비활성화하여 모든 제안이 blink.cmp를 통해 표시
+  - ghost text 없이 completion menu에서 일관된 UI 제공
+
+### LSP 서버 상세
+
+현재 활성화된 LSP 서버와 설정:
+
+| 언어 | LSP 서버 | 추가 도구 | 특징 |
+|------|---------|----------|------|
+| **Python** | pylsp | ruff (linting), mypy (타입 체킹), rope (auto-import) | uv 런타임 사용, pyright 비활성화 |
+| **Java** | jdtls | Java Test, Debug Adapter, Spring Boot Tools | nvim-java가 자동 관리 |
+| **TypeScript/JS** | tsserver | - | LazyVim extras |
+| **JSON** | jsonls | schemastore | LazyVim extras |
+| **YAML** | yamlls | - | LazyVim extras |
+| **Docker** | dockerls | - | LazyVim extras |
+| **Kotlin** | kotlin_language_server | - | LazyVim extras |
+| **Scala** | metals | - | LazyVim extras |
+| **TOML** | taplo | - | LazyVim extras |
+
+## 📊 2025 트렌드 비교
+
+### blink.cmp vs nvim-cmp
+
+**현재 사용**: blink.cmp ✅
+
+| 비교 항목 | blink.cmp (사용 중) | nvim-cmp (레거시) |
+|----------|---------------------|-------------------|
+| **성능** | 0.5-4ms (키 입력당) | 60ms debounce + 2-50ms hitches |
+| **Fuzzy Matcher** | Rust 기반 frizbee (fzf 대비 6배 빠름) | fzf 스타일 |
+| **기본 소스** | LSP, buffer, path, snippets 내장 | 모두 외부 플러그인 필요 |
+| **Fuzzy Matching** | Typo-resistant (오타 허용) | 표준 fuzzy |
+| **Scoring** | Frecency + Proximity | Proximity + 선택적 Recency |
+| **트렌드** | 2025년 LazyVim 기본값 | 호환성 유지 (Neovim 0.9) |
+
+**참고 자료**:
+- [blink.cmp GitHub](https://github.com/Saghen/blink.cmp)
+- [LazyVim Discussion: How to replace blink.cmp with nvim-cmp?](https://github.com/LazyVim/LazyVim/discussions/6388)
+- [kickstart.nvim Issue: Use blink.cmp over nvim-cmp?](https://github.com/nvim-lua/kickstart.nvim/issues/1331)
+
+### Python LSP: pyright vs pylsp
+
+**현재 사용**: pylsp + ruff + mypy ✅
+
+| 비교 항목 | pyright (일반적 선택) | pylsp (사용 중) |
+|----------|----------------------|-----------------|
+| **속도** | 빠름 | 보통 |
+| **타입 체킹** | 강력한 내장 타입 체킹 | mypy 통합으로 보완 |
+| **의존성** | Node.js 필요 | Python만 필요 |
+| **유연성** | 설정 옵션 적음 | 매우 유연한 플러그인 시스템 |
+| **ML 라이브러리** | 일부 지원 부족 (opencv 등) | 플러그인으로 확장 가능 |
+| **Auto-import** | 내장 | rope 플러그인 필요 |
+| **LazyVim 기본값** | pyright (또는 basedpyright) | - |
+
+**현재 설정의 장점**:
+- ✅ Node.js 의존성 없음
+- ✅ ruff로 빠른 linting
+- ✅ mypy로 강력한 타입 체킹
+- ✅ rope로 auto-import 기능
+- ✅ 높은 확장성
+
+**참고 자료**:
+- [LazyVim Python LSP](https://www.lazyvim.org/extras/lang/python)
+- [nvimdots Discussion: pyright vs pylsp](https://github.com/ayamir/nvimdots/discussions/708)
+- [Getting the Best Python LSP for Neovim](https://toxigon.com/neovim-best-python-lsp)
+
+### 결론
+
+**✅ 현재 설정은 2025년 트렌드에 부합합니다:**
+
+1. **blink.cmp**: LazyVim의 최신 기본값 사용 중
+2. **LSP 서버**: 각 언어별 표준 또는 우수한 대안 사용
+3. **Python**: pylsp가 pyright보다 덜 일반적이지만, ruff + mypy 통합으로 동등한 기능 제공
+4. **중복 없음**: 모든 도구가 명확한 역할 분담
+
+**개선 고려 사항** (선택적):
+- Python에서 더 빠른 타입 체킹을 원하면 pyright로 전환 고려
+- 하지만 현재 pylsp + ruff + mypy 조합도 충분히 효율적
+
+## 🔌 설치된 플러그인 및 도구
+
+### LazyVim Extras
+
+현재 활성화된 LazyVim extras 목록:
+
+- **formatting.prettier** - Prettier 포맷터
+- **lang.docker** - Docker 파일 지원
+- **lang.java** - Java 개발 환경
+- **lang.json** - JSON 지원
+- **lang.kotlin** - Kotlin 개발 환경
+- **lang.markdown** - Markdown 지원
+- **lang.python** - Python 개발 환경
+- **lang.scala** - Scala 개발 환경
+- **lang.toml** - TOML 파일 지원
+- **lang.typescript** - TypeScript/JavaScript 개발 환경
+- **lang.yaml** - YAML 파일 지원
+
+### 커스텀 플러그인
+
+| 플러그인 | 용도 | 설정 파일 |
+|---------|------|-----------|
+| **zbirenbaum/copilot.lua** | GitHub Copilot AI 자동완성 | `lua/plugins/copilot.lua` |
+| **fang2hou/blink-copilot** | Copilot blink.cmp 통합 | `lua/plugins/copilot.lua` |
+| **CopilotChat.nvim** | Copilot 대화형 AI | `lua/plugins/copilot-chat.lua` |
+| **coder/claudecode.nvim** | Claude Code 통합 | `lua/plugins/claude-code.lua` |
+| **stevearc/oil.nvim** | 파일 탐색기 | `lua/plugins/oil.lua` |
+| **nvim-java** | Java 개발 환경 | `lua/plugins/java.lua` |
+| **nvim-dap** | 디버깅 지원 | `lua/plugins/dap.lua` |
+
+### LSP 서버
+
+| 언어 | LSP 서버 | 추가 도구 | 설정 |
+|------|---------|----------|------|
+| **Python** | pylsp | ruff (linting), mypy (타입 체킹), rope (auto-import) | `lua/plugins/nvim-lspconfig.lua` |
+| **Java** | jdtls | Java Test, Debug Adapter, Spring Boot Tools | `lua/plugins/java.lua` |
+| **TypeScript/JavaScript** | tsserver | - | LazyVim extras |
+| **JSON** | jsonls | schemastore | LazyVim extras |
+| **YAML** | yamlls | - | LazyVim extras |
+| **Docker** | dockerls | - | LazyVim extras |
+| **Kotlin** | kotlin_language_server | - | LazyVim extras |
+| **Scala** | metals | - | LazyVim extras |
+| **TOML** | taplo | - | LazyVim extras |
+| **Markdown** | ❌ 비활성화 | - | `lua/plugins/markdown.lua` |
+
+### Linter & Formatter
+
+LazyVim은 기본적으로 다음 도구들을 사용합니다:
+
+- **conform.nvim** - 코드 포맷팅
+  - Python: ruff
+  - TypeScript/JavaScript: prettier
+  - JSON: prettier
+  - Markdown: ❌ 비활성화
+  
+- **nvim-lint** - 코드 린팅
+  - Python: ruff + mypy (pylsp 통합)
+  - Markdown: ❌ 비활성화
+
+### Copilot 설정
+
+**사용 플러그인**:
+- [zbirenbaum/copilot.lua](https://github.com/zbirenbaum/copilot.lua)
+- [fang2hou/blink-copilot](https://github.com/fang2hou/blink-copilot)
+
+**설정 방식**:
+- Copilot 제안이 blink.cmp completion menu에 통합되어 표시
+- Ghost text(회색 텍스트) 비활성화
+- 모든 제안이 completion dialog에서 일관되게 표시
+- LazyVim의 기본 completion 엔진인 blink.cmp와 완벽하게 통합
+
+**로그인 방법**:
+
+```vim
+# Neovim에서 Copilot 인증
+:Copilot auth
+```
+
+브라우저가 열리고 GitHub 인증 코드 입력 화면이 나타납니다.
+화면의 안내에 따라 인증 코드를 입력하면 로그인이 완료됩니다.
+
+**상태 확인**:
+
+```vim
+# Copilot 상태 확인
+:Copilot status
+
+# Copilot 비활성화/활성화
+:Copilot disable
+:Copilot enable
+```
+
+**사용 방법**:
+
+1. Insert 모드에서 코드를 작성하면 자동으로 Copilot 제안이 completion menu에 표시됩니다
+2. `<C-n>` / `<C-p>` 키로 제안 항목 간 이동
+3. `<Tab>` 또는 `<CR>`로 선택한 제안 적용
+4. `<C-e>`로 completion menu 닫기
+
+**설정 파일**: `lua/plugins/copilot.lua`
+
