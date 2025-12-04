@@ -20,3 +20,21 @@ vim.g.root_spec = { "cwd" }
 
 -- 전역 autoformat 비활성화 (특정 파일타입만 autocmd로 활성화)
 vim.g.autoformat = false
+
+-- Soft wrap 설정
+vim.opt.wrap = true -- 긴 줄을 화면에 맞게 wrap
+vim.opt.linebreak = true -- 단어 중간이 아닌 공백에서 wrap
+vim.opt.breakindent = true -- wrap된 줄도 들여쓰기 유지
+vim.opt.showbreak = "↪ " -- wrap된 줄 앞에 표시할 문자
+
+-- 터미널 키 프로토콜 문제 해결
+-- Ctrl+w 등의 키가 잘못된 시퀀스로 입력되는 문제 수정
+if vim.fn.has("nvim-0.10") == 1 then
+  vim.opt.termpastefilter = "BS,HT,ESC,DEL"
+end
+
+-- 터미널에서 modifyOtherKeys 비활성화
+vim.cmd([[
+  let &t_TI = ""
+  let &t_TE = ""
+]])
