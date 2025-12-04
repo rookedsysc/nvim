@@ -7,3 +7,8 @@ foo.*
 *.log
 data
 lazy-lock.json
+.DS_Store
+.agent
+.claude
+.gemini
+.github/prompts
