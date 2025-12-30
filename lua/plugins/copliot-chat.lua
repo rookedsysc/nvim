@@ -70,3 +70,6 @@
 --     chat.setup(opts)
 --   end,
 -- }
+
+-- 주석 처리된 플러그인이므로 빈 테이블 반환
+return {}
