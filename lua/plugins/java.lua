@@ -1,5 +1,6 @@
 return {
   "nvim-java/nvim-java",
+  enabled = false, -- 네트워크 타임아웃 문제로 임시 비활성화
   dependencies = {
     "nvim-java/lua-async-await",
     "nvim-java/nvim-java-refactor",
@@ -42,9 +43,9 @@ return {
         "build.gradle.kts",
         ".git",
       },
-      java_test = { enable = true },
-      java_debug_adapter = { enable = true },
-      spring_boot_tools = { enable = true },
+      java_test = { enable = false },
+      java_debug_adapter = { enable = false },
+      spring_boot_tools = { enable = false },
       jdk = { auto_install = true },
       notifications = { dap = true },
     })
