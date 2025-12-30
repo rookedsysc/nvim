@@ -70,3 +70,5 @@
 --     chat.setup(opts)
 --   end,
 -- }
+
+return {}
