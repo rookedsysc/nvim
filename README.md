@@ -21,7 +21,11 @@
 | **네비게이션**    | n    | `gd`           | 정의로 이동                                    |
 |                   | n    | `<C-o>`        | 이전 포커스로 이동                             |
 |                   | n    | `gr`           | 참조로 이동(cmd + b / cmd + 마우스클릭에 해당) |
-|                   | n    | `gd`           | 정의로 이동                                    |
+|                   | n    | `gD`           | 선언으로 이동                                  |
+| **LSP**           | n    | `<leader>ca`   | Code Action (Auto Import, Quick Fix 등)       |
+|                   | n    | `<leader>cr`   | 심볼 이름 변경 (Rename)                        |
+|                   | n    | `<leader>cf`   | 코드 포맷팅                                    |
+|                   | n    | `K`            | Hover 문서 보기                                |
 | **터미널**        | n    | `:term`        | 현재 창에서 터미널                             |
 |                   | n    | `!{cmd}`       | 외부 명령어 실행                               |
 |                   | t    | `<C-\><C-n>`   | 터미널 → 일반 모드                             |
@@ -78,8 +82,59 @@ opts = {
 
 ### Python
 
-- pylsp 사용
-- 기본 설정 **uv add pylsp, pylsp-mypy, mypy, ruff**
+**사용 플러그인**: pylsp (Python Language Server Protocol)
+
+- **기본 설정**: `uv add pylsp, pylsp-mypy, mypy, ruff`
+- **주요 기능**:
+  - **rope_autoimport**: 자동 import 제안 (Code Action 통합)
+  - **ruff**: 빠른 linting 및 import 정리
+  - **mypy**: 강력한 타입 체킹
+  - **rope**: 리팩토링 및 auto-import 기능
+
+**Auto Import 사용법**:
+
+1. 정의되지 않은 심볼(예: 함수, 클래스)에 커서를 위치
+2. `<leader>ca` 키로 Code Action 메뉴 열기
+3. "Import ..." 옵션 선택하여 자동으로 import 문 추가
+
+**주요 설정** (`lua/plugins/nvim-lspconfig.lua`):
+
+```lua
+rope_autoimport = {
+  enabled = true,
+  code_actions = true,  -- Code Action으로 자동 import 제공
+}
+```
+
+### TypeScript/JavaScript
+
+**사용 플러그인**: tsserver (TypeScript Language Server)
+
+- **기본 설정**: LazyVim extras (`lang.typescript`) 자동 설치
+- **주요 기능**:
+  - **Auto Import**: 자동 import 제안 및 추가
+  - **Organize Imports**: import 문 자동 정리
+  - **Quick Fix**: 타입 에러 자동 수정 제안
+  - **Code Actions**: 리팩토링 및 코드 개선 제안
+
+**Auto Import 사용법**:
+
+1. **Code Action 방식**:
+   - 정의되지 않은 심볼에 커서 위치
+   - `<leader>ca` 키로 Code Action 메뉴 열기
+   - "Import ..." 옵션 선택하여 자동으로 import 문 추가
+
+2. **자동 완성 방식**:
+   - 코드 작성 중 자동완성 메뉴에서 심볼 선택
+   - tsserver가 자동으로 import 문 추가
+
+3. **Import 정리**:
+   - `<leader>ca` 후 "Organize Imports" 선택
+   - 사용하지 않는 import 제거 및 정렬
+
+**추가 기능**:
+- `<leader>co`: Source Action (Organize Imports, Remove Unused 등)
+- `<leader>cR`: 파일 이름 변경 및 import 경로 자동 업데이트
 
 ### Java
 
