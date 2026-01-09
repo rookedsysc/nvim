@@ -30,6 +30,81 @@ return {
         })
       end
 
+      -- JavaScript/TypeScript DAP configuration (using vscode-js-debug)
+      local js_debug_path = vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter"
+
+      for _, adapter in ipairs({ "pwa-node", "pwa-chrome", "node-terminal" }) do
+        dap.adapters[adapter] = {
+          type = "server",
+          host = "localhost",
+          port = "${port}",
+          executable = {
+            command = "node",
+            args = { js_debug_path .. "/js-debug/src/dapDebugServer.js", "${port}" },
+          },
+        }
+      end
+
+      -- JavaScript/TypeScript configurations
+      for _, lang in ipairs({ "javascript", "typescript", "javascriptreact", "typescriptreact" }) do
+        dap.configurations[lang] = {
+          {
+            type = "pwa-node",
+            request = "launch",
+            name = "Launch file",
+            program = "${file}",
+            cwd = "${workspaceFolder}",
+            sourceMaps = true,
+          },
+          {
+            type = "pwa-node",
+            request = "attach",
+            name = "Attach to process",
+            processId = require("dap.utils").pick_process,
+            cwd = "${workspaceFolder}",
+            sourceMaps = true,
+          },
+          {
+            type = "pwa-chrome",
+            request = "launch",
+            name = "Launch Chrome",
+            url = "http://localhost:3000",
+            webRoot = "${workspaceFolder}",
+            sourceMaps = true,
+          },
+        }
+      end
+
+      -- Dart/Flutter DAP configuration (using FVM)
+      dap.adapters.dart = {
+        type = "executable",
+        command = "fvm",
+        args = { "dart", "debug_adapter" },
+      }
+
+      dap.adapters.flutter = {
+        type = "executable",
+        command = "fvm",
+        args = { "flutter", "debug_adapter" },
+      }
+
+      dap.configurations.dart = {
+        {
+          type = "dart",
+          request = "launch",
+          name = "Launch Dart",
+          program = "${file}",
+          cwd = "${workspaceFolder}",
+        },
+        {
+          type = "flutter",
+          request = "launch",
+          name = "Launch Flutter",
+          program = "${workspaceFolder}/lib/main.dart",
+          cwd = "${workspaceFolder}",
+        },
+      }
+
       vim.fn.sign_define("DapBreakpoint", {
         text = "",
         texthl = "DiagnosticSignError",
