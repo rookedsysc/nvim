@@ -36,6 +36,14 @@
 |                   | n    | `<leader>dO`   | 스텝 아웃                                      |
 |                   | n    | `<leader>dq`   | 디버깅 종료                                    |
 |                   | n    | `<leader>du`   | 디버그 UI 토글                                 |
+| **CodeDiff**      | n    | `<leader>gd`   | Git Diff (VSCode 스타일 side-by-side)          |
+|                   | n    | `<leader>gH`   | Git 커밋 히스토리                              |
+|                   | diff | `]c` / `[c`    | 다음/이전 변경 hunk 이동                       |
+|                   | diff | `]f` / `[f`    | 다음/이전 파일 이동                            |
+|                   | diff | `do` / `dp`    | 변경 가져오기/보내기                           |
+|                   | diff | `-`            | 파일 Stage/Unstage 토글                        |
+|                   | diff | `t`            | 레이아웃 전환 (side-by-side/inline)            |
+|                   | diff | `q`            | Diff 뷰 닫기                                  |
 | **Claude Code**   | n    | `<leader>ac`   | Claude Code 토글                               |
 |                   | n    | `<leader>af`   | Claude Code 포커스                             |
 |                   | n    | `<leader>ar`   | Claude Code 재개 (Resume)                      |
@@ -79,6 +87,50 @@ opts = {
 2. Visual 모드에서 코드 선택 후 `<leader>as`로 전송
 3. Oil이나 NvimTree에서 `<leader>as`로 파일 추가
 4. Diff 제안이 나타나면 `<leader>aa`로 승인 또는 `<leader>ad`로 거부
+
+### CodeDiff (Git Diff Viewer)
+
+**사용 플러그인**: [esmuellert/codediff.nvim](https://github.com/esmuellert/codediff.nvim)
+
+- **의존성**: 없음 (C 라이브러리 자동 다운로드)
+- **요구사항**: Git, curl 또는 wget
+
+VSCode 스타일의 side-by-side diff 렌더링 플러그인. 라인 수준 + 문자 수준 2단계 하이라이팅, 이동된 코드 감지, 충돌 해결 기능 제공.
+
+**사용법**:
+
+1. `<leader>gd`로 현재 git 변경사항을 side-by-side diff로 확인
+2. `<leader>gH`로 커밋 히스토리 탐색
+3. Diff 뷰에서 `]c`/`[c`로 변경 hunk 간 이동
+4. `-`로 파일 Stage/Unstage, `<leader>hs`로 hunk 단위 Stage
+5. `t`로 side-by-side/inline 레이아웃 전환
+6. `g?`로 전체 키맵 도움말 확인
+
+**Diff 뷰 주요 키맵**:
+
+| 키맵 | 설명 |
+|------|------|
+| `]c` / `[c` | 다음/이전 변경 hunk |
+| `]f` / `[f` | 다음/이전 파일 |
+| `do` / `dp` | 변경 가져오기/보내기 |
+| `-` | 파일 Stage/Unstage |
+| `<leader>hs` | hunk Stage |
+| `<leader>hu` | hunk Unstage |
+| `<leader>hr` | hunk 버리기 (Discard) |
+| `t` | 레이아웃 전환 |
+| `q` | Diff 뷰 닫기 |
+
+**충돌 해결 키맵**:
+
+| 키맵 | 설명 |
+|------|------|
+| `<leader>ct` | 들어오는 변경 수락 (Incoming) |
+| `<leader>co` | 현재 변경 유지 (Current) |
+| `<leader>cb` | 양쪽 모두 수락 |
+| `<leader>cx` | 양쪽 모두 버리기 |
+| `]x` / `[x` | 다음/이전 충돌 이동 |
+
+**설정 파일**: `lua/plugins/codediff.lua`
 
 ### Python
 
@@ -449,6 +501,7 @@ sources = { "lsp", "path", "snippets", "buffer", "copilot" }
 | **stevearc/oil.nvim** | 파일 탐색기 | `lua/plugins/oil.lua` |
 | **nvim-java** | Java 개발 환경 | `lua/plugins/java.lua` |
 | **nvim-dap** | 디버깅 지원 | `lua/plugins/dap.lua` |
+| **esmuellert/codediff.nvim** | VSCode 스타일 Git Diff | `lua/plugins/codediff.lua` |
 
 ### LSP 서버
 
