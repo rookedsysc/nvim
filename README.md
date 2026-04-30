@@ -36,7 +36,9 @@
 |                   | n    | `<leader>dO`   | 스텝 아웃                                      |
 |                   | n    | `<leader>dq`   | 디버깅 종료                                    |
 |                   | n    | `<leader>du`   | 디버그 UI 토글                                 |
-| **CodeDiff**      | n    | `<leader>gd`   | Git Diff (VSCode 스타일 side-by-side)          |
+| **CodeDiff**      | n    | `<leader>gd`   | 현재 파일 Git Diff (side-by-side)              |
+|                   | n    | `<leader>gi`   | 현재 파일 Git Diff (inline)                    |
+|                   | n    | `<leader>gD`   | 저장소 Git Diff Explorer                       |
 |                   | n    | `<leader>gH`   | Git 커밋 히스토리                              |
 |                   | diff | `]c` / `[c`    | 다음/이전 변경 hunk 이동                       |
 |                   | diff | `]f` / `[f`    | 다음/이전 파일 이동                            |
@@ -95,16 +97,22 @@ opts = {
 - **의존성**: 없음 (C 라이브러리 자동 다운로드)
 - **요구사항**: Git, curl 또는 wget
 
-VSCode 스타일의 side-by-side diff 렌더링 플러그인. 라인 수준 + 문자 수준 2단계 하이라이팅, 이동된 코드 감지, 충돌 해결 기능 제공.
+VSCode 스타일의 diff 렌더링 플러그인. side-by-side / inline 레이아웃을 모두 지원하고, 라인 수준 + 문자 수준 2단계 하이라이팅, 이동된 코드 감지, 충돌 해결 기능을 제공합니다.
+
+`codediff.nvim`은 Node 기반이 아니라 네이티브 `libvscode_diff` 바이너리를 로드합니다. 따라서 Node 버전은 직접 요구사항이 아닙니다.
 
 **사용법**:
 
-1. `<leader>gd`로 현재 git 변경사항을 side-by-side diff로 확인
-2. `<leader>gH`로 커밋 히스토리 탐색
-3. Diff 뷰에서 `]c`/`[c`로 변경 hunk 간 이동
-4. `-`로 파일 Stage/Unstage, `<leader>hs`로 hunk 단위 Stage
-5. `t`로 side-by-side/inline 레이아웃 전환
-6. `g?`로 전체 키맵 도움말 확인
+1. `<leader>gd`로 현재 파일을 새 탭 side-by-side diff로 확인
+2. `<leader>gi`로 현재 파일을 새 탭 inline diff로 확인
+3. `<leader>gD`로 저장소 전체 변경사항 explorer를 열기
+4. `<leader>gH`로 커밋 히스토리 탐색
+5. Diff 뷰에서 `]c`/`[c`로 변경 hunk 간 이동
+6. `-`로 파일 Stage/Unstage, `<leader>hs`로 hunk 단위 Stage
+7. `t`로 side-by-side/inline 레이아웃 전환
+8. `g?`로 전체 키맵 도움말 확인
+
+현재 버퍼가 일반 파일이 아니거나 Git 저장소 밖이면 `<leader>gd` / `<leader>gi`는 자동으로 저장소 explorer로 fallback 됩니다.
 
 **Diff 뷰 주요 키맵**:
 
@@ -573,4 +581,3 @@ LazyVim은 기본적으로 다음 도구들을 사용합니다:
 4. `<C-e>`로 completion menu 닫기
 
 **설정 파일**: `lua/plugins/copilot.lua`
-
